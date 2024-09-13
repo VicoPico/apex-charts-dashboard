@@ -107,6 +107,17 @@ var barChartOptions = {
 	plotOptions: {
 		bar: {
 			columnWidth: '80%', // Make the bars 30% thinner
+			position: 'top', // Position the data labels at the top of the bars
+		},
+	},
+	dataLabels: {
+		enabled: true,
+		formatter: function (val) {
+			return Math.round(val); // Format data labels as whole numbers
+		},
+		style: {
+			fontSize: '12px',
+			colors: ['#304758'],
 		},
 	},
 	series: [],
@@ -162,14 +173,15 @@ function updateBarChart(selectedData, selectedMetric) {
 	];
 	var barCategories = [selectedData.x];
 
-	// Calculate the average value
-	var total = series.reduce(
-		(sum, metric) =>
-			sum +
-			metric.data.reduce((metricSum, dataPoint) => metricSum + dataPoint.y, 0),
+	// Calculate the average value for the selected metric
+	var selectedMetricData = series.find(
+		(metric) => metric.name === selectedMetric
+	).data;
+	var total = selectedMetricData.reduce(
+		(sum, dataPoint) => sum + dataPoint.y,
 		0
 	);
-	var count = series.reduce((sum, metric) => sum + metric.data.length, 0);
+	var count = selectedMetricData.length;
 	var average = total / count;
 
 	// Add the average bar
