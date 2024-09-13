@@ -66,15 +66,15 @@ body {
 	height: 100%;
 	background: linear-gradient(
 		to bottom,
-		rgba(0, 124, 145, 0.6),
-		rgba(0, 151, 167, 0.6),
-		rgba(0, 172, 193, 0.6),
-		rgba(0, 188, 212, 0.6),
-		rgba(38, 198, 218, 0.6),
-		rgba(77, 208, 225, 0.6),
-		rgba(128, 222, 234, 0.6),
-		rgba(178, 235, 242, 0.6),
-		rgba(224, 247, 250, 0.6)
+		rgba(0, 124, 145, 0.5),
+		rgba(0, 151, 167, 0.5),
+		rgba(0, 172, 193, 0.5),
+		rgba(0, 188, 212, 0.5),
+		rgba(38, 198, 218, 0.5),
+		rgba(77, 208, 225, 0.5),
+		rgba(128, 222, 234, 0.5),
+		rgba(178, 235, 242, 0.5),
+		rgba(224, 247, 250, 0.5)
 	); /* 10-color gradient */
 }
 
@@ -95,7 +95,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 700;
 	color: #fff;
-	background-color: rgba(0, 124, 145, 0.6); /* Button background color */
+	background-color: rgba(0, 124, 145, 0.5); /* Button background color */
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -108,7 +108,7 @@ body {
 		0,
 		151,
 		167,
-		0.6
+		0.5
 	); /* Darker background color on hover */
 }
 
@@ -140,15 +140,56 @@ body {
 		height: 20px;
 		background: linear-gradient(
 			to right,
-			rgba(0, 124, 145, 0.6),
-			rgba(0, 151, 167, 0.6),
-			rgba(0, 172, 193, 0.6),
-			rgba(0, 188, 212, 0.6),
-			rgba(38, 198, 218, 0.6),
-			rgba(77, 208, 225, 0.6),
-			rgba(128, 222, 234, 0.6),
-			rgba(178, 235, 242, 0.6),
-			rgba(224, 247, 250, 0.6)
+			rgba(0, 124, 145, 0.5),
+			rgba(0, 151, 167, 0.5),
+			rgba(0, 172, 193, 0.5),
+			rgba(0, 188, 212, 0.5),
+			rgba(38, 198, 218, 0.5),
+			rgba(77, 208, 225, 0.5),
+			rgba(128, 222, 234, 0.5),
+			rgba(178, 235, 242, 0.5),
+			rgba(224, 247, 250, 0.5)
 		); /* 10-color horizontal gradient */
+	}
+}
+
+/* Gradient definition */
+svg defs {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+svg defs linearGradient {
+	stop {
+		stop-color: #007c91;
+	}
+	stop:nth-child(2) {
+		stop-color: #0097a7;
+	}
+	stop:nth-child(3) {
+		stop-color: #00acc1;
+	}
+	stop:nth-child(4) {
+		stop-color: #00bcd4;
+	}
+	stop:nth-child(5) {
+		stop-color: #26c6da;
+	}
+	stop:nth-child(6) {
+		stop-color: #4dd0e1;
+	}
+	stop:nth-child(7) {
+		stop-color: #80deea;
+	}
+	stop:nth-child(8) {
+		stop-color: #b2ebf2;
+	}
+	stop:nth-child(9) {
+		stop-color: #e0f7fa;
+	}
+	stop:nth-child(10) {
+		stop-color: #ffffff;
 	}
 }

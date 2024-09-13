@@ -7,7 +7,7 @@ var series = [
 			{ x: 'W2', y: 29 },
 			{ x: 'W3', y: 13 },
 			{ x: 'W4', y: 32 },
-			{ x: 'W5', y: 25 },
+			{ x: 'W5', y: 85 },
 			{ x: 'W6', y: 27 },
 			{ x: 'W7', y: 30 },
 			{ x: 'W8', y: 35 },
@@ -20,7 +20,7 @@ var series = [
 			{ x: 'W1', y: 40 },
 			{ x: 'W2', y: 79 },
 			{ x: 'W3', y: 43 },
-			{ x: 'W4', y: 50 },
+			{ x: 'W4', y: 34 },
 			{ x: 'W5', y: 59 },
 			{ x: 'W6', y: 47 },
 			{ x: 'W7', y: 17 },
@@ -39,10 +39,28 @@ var series = [
 			{ x: 'W6', y: 35 },
 			{ x: 'W7', y: 40 },
 			{ x: 'W8', y: 45 },
-			{ x: 'W9', y: 50 },
+			{ x: 'W9', y: 120 },
 		],
 	},
 ];
+
+// Function to calculate min and max y-values
+function calculateMinMax(series) {
+	let min = Infinity;
+	let max = -Infinity;
+
+	series.forEach((metric) => {
+		metric.data.forEach((dataPoint) => {
+			if (dataPoint.y < min) min = dataPoint.y;
+			if (dataPoint.y > max) max = dataPoint.y;
+		});
+	});
+
+	return { min, max };
+}
+
+// Calculate min and max y-values
+const { min, max } = calculateMinMax(series);
 
 // Heat map options
 var heatmapOptions = {
@@ -106,8 +124,10 @@ var barChartOptions = {
 	},
 	plotOptions: {
 		bar: {
-			columnWidth: '80%', // Make the bars 30% thinner
-			position: 'top', // Position the data labels at the top of the bars
+			columnWidth: '70%', // Make the bars 30% thinner
+			dataLabels: {
+				position: 'top', // Position the data labels at the top of the bars
+			},
 		},
 	},
 	dataLabels: {
@@ -120,38 +140,53 @@ var barChartOptions = {
 			colors: ['#304758'],
 		},
 	},
+	fill: {
+		type: 'gradient',
+		gradient: {
+			shade: 'light',
+			type: 'vertical',
+			shadeIntensity: 0.5,
+			gradientToColors: ['#00acc1', '#4dd0e1', '#b2ebf2', '#e0f7fa', '#ffffff'], // Gradient colors
+			inverseColors: false,
+			opacityFrom: 0.6, // Set opacity to 0.6
+			opacityTo: 0.6, // Set opacity to 0.6
+			stops: [0, 20, 40, 60, 80, 100],
+		},
+	},
 	series: [],
 	xaxis: {
 		categories: [],
+		labels: {
+			show: true,
+			style: {
+				fontSize: '12px',
+				colors: ['#304758'],
+			},
+		},
 	},
 	yaxis: {
-		min: 0,
-		max: 100,
+		min: min,
+		max: max,
 		labels: {
 			formatter: function (value) {
 				return Math.round(value); // Format labels as whole numbers
 			},
 		},
 	},
-	colors: [
-		function ({ value }) {
-			if (value < 10) return 'rgba(224, 247, 250, 0.65)';
-			if (value < 20) return 'rgba(178, 235, 242, 0.65)';
-			if (value < 30) return 'rgba(128, 222, 234, 0.65)';
-			if (value < 40) return 'rgba(77, 208, 225, 0.65)';
-			if (value < 50) return 'rgba(38, 198, 218, 0.65)';
-			if (value < 60) return 'rgba(0, 188, 212, 0.65)';
-			if (value < 70) return 'rgba(0, 172, 193, 0.65)';
-			if (value < 80) return 'rgba(0, 151, 167, 0.65)';
-			return 'rgba(0, 124, 145, 0.65)'; // Darkest color
-		},
-	],
 	title: {
 		text: 'Bar Chart Example',
 		style: {
 			fontFamily: 'Roboto, sans-serif',
 			fontWeight: '700',
 			fontSize: '24px',
+		},
+	},
+	legend: {
+		markers: {
+			width: 12,
+			height: 12,
+			radius: 0,
+			colors: ['#00acc1', '#4dd0e1', '#b2ebf2', '#e0f7fa', '#ffffff'], // Gradient colors
 		},
 	},
 };
@@ -191,14 +226,55 @@ function updateBarChart(selectedData, selectedMetric) {
 	});
 	barCategories.push('Average');
 
+	// Calculate min and max y-values for the selected metric
+	const { min, max } = calculateMinMax([
+		series.find((metric) => metric.name === selectedMetric),
+	]);
+
 	barChart.updateOptions({
 		series: barSeries,
 		xaxis: {
 			categories: barCategories,
+			labels: {
+				show: true,
+				style: {
+					fontSize: '12px',
+					colors: ['#304758'],
+				},
+			},
+		},
+		yaxis: {
+			min: min,
+			max: max,
+			tickAmount: 4,
+			labels: {
+				formatter: function (value) {
+					return Math.round(value); // Format labels as whole numbers
+				},
+			},
 		},
 		title: {
 			text: selectedMetric + ' - ' + selectedData.x,
 		},
+		colors: ['#00acc1', '#4dd0e1'], // Set the colors for the series
+		legend: {
+			markers: {
+				width: 12,
+				height: 12,
+				radius: 0,
+				colors: ['#00acc1', '#4dd0e1'], // Set the colors for the legend markers
+			},
+		},
+	});
+}
+
+// Function to apply gradient to bars
+function applyGradientToBars() {
+	const bars = document.querySelectorAll(
+		'.apexcharts-bar-area .apexcharts-bar'
+	);
+	bars.forEach((bar) => {
+		bar.style.fill = 'url(#gradient)';
 	});
 }
 
