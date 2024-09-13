@@ -1,0 +1,154 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Dashboard grid layout */
+.dashboard {
+	display: grid;
+	grid-template-columns: 1fr 1fr; /* Two columns */
+	grid-template-rows: 1fr 1fr; /* Two rows */
+	gap: 40px; /* Space between quadrants */
+	padding: 40px; /* Space around the dashboard */
+	width: 100vw;
+	height: 90vh; /* Height of the dashboard */
+}
+
+/* Quadrant styling */
+.quadrant {
+	border: 1px solid #ccc; /* Border around each quadrant */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px; /* Space inside each quadrant */
+	background-color: #f0f0f0; /* Background color for better visibility */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for better visibility */
+}
+
+/* Heatmap container styling */
+.heatmap-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	padding: 20px; /* Space inside the heatmap container */
+}
+
+/* Heatmap styling */
+#heatmap {
+	flex: 4; /* 4/5 of the quadrant */
+	width: 100%;
+	height: 100%;
+}
+
+/* Color scale container styling */
+.color-scale-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex: 1; /* 1/5 of the quadrant */
+	margin-left: 20px; /* Space to the left of the color scale */
+}
+
+/* Color scale labels styling */
+.color-scale-container .label,
+.color-scale-container .value {
+	margin: 10px 0;
+	font-size: 16px; /* Font size of the labels */
+}
+
+/* Color scale bar styling */
+.color-scale-container .bar {
+	width: 20px;
+	height: 100%;
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 124, 145, 0.6),
+		rgba(0, 151, 167, 0.6),
+		rgba(0, 172, 193, 0.6),
+		rgba(0, 188, 212, 0.6),
+		rgba(38, 198, 218, 0.6),
+		rgba(77, 208, 225, 0.6),
+		rgba(128, 222, 234, 0.6),
+		rgba(178, 235, 242, 0.6),
+		rgba(224, 247, 250, 0.6)
+	); /* 10-color gradient */
+}
+
+/* Bar chart styling */
+#barchart {
+	width: 100%;
+	height: 100%;
+}
+
+/* Download button styling */
+.download-button {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 10px 20px;
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	color: #fff;
+	background-color: rgba(0, 124, 145, 0.6); /* Button background color */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for better visibility */
+	transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.download-button:hover {
+	background-color: rgba(
+		0,
+		151,
+		167,
+		0.6
+	); /* Darker background color on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+	.dashboard {
+		grid-template-columns: 1fr; /* Single column layout */
+		grid-template-rows: auto;
+		height: auto; /* Adjust height for smaller screens */
+	}
+
+	.quadrant {
+		height: 300px; /* Adjust height as needed */
+	}
+
+	.heatmap-container {
+		flex-direction: column; /* Stack heatmap and color scale vertically */
+	}
+
+	.color-scale-container {
+		flex-direction: row; /* Arrange color scale items horizontally */
+		justify-content: space-around;
+		margin-left: 0;
+		margin-top: 10px;
+	}
+
+	.color-scale-container .bar {
+		width: 100%;
+		height: 20px;
+		background: linear-gradient(
+			to right,
+			rgba(0, 124, 145, 0.6),
+			rgba(0, 151, 167, 0.6),
+			rgba(0, 172, 193, 0.6),
+			rgba(0, 188, 212, 0.6),
+			rgba(38, 198, 218, 0.6),
+			rgba(77, 208, 225, 0.6),
+			rgba(128, 222, 234, 0.6),
+			rgba(178, 235, 242, 0.6),
+			rgba(224, 247, 250, 0.6)
+		); /* 10-color horizontal gradient */
+	}
+}
