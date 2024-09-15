@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dashboard</title>
+		<!-- Link to Google Fonts -->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+		<!-- Link to styles.css -->
+		<link rel="stylesheet" href="src/styles.css" />
+	</head>
+	<body>
+		<div class="dashboard">
+			<div class="quadrant heatmap-container">
+				<div id="heatmap"></div>
+				<div class="color-scale-container">
+					<div class="label">Color Scale</div>
+					<div class="bar"></div>
+					<div class="value">Value</div>
+				</div>
+			</div>
+			<div class="quadrant" id="barchart"></div>
+		</div>
+		<button class="download-button" id="downloadButton">
+			Download Heatmap
+		</button>
+		<!-- Script tag for ApexCharts -->
+		<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+		<!-- Script tag for app.js -->
+		<script src="src/app.js" type="module"></script>
+	</body>
+</html>
