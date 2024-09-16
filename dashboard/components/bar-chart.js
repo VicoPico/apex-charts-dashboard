@@ -1,4 +1,4 @@
-import { series } from './heatmap-chart.js';
+import { series } from './data/heatmap-data.js';
 
 const barChartOptions = {
 	chart: {
@@ -10,7 +10,7 @@ const barChartOptions = {
 	},
 	plotOptions: {
 		bar: {
-			columnWidth: '70%',
+			columnWidth: '20%', // Adjusted to 50% of the current width
 			dataLabels: {
 				position: 'top',
 			},
@@ -75,6 +75,9 @@ const barChartOptions = {
 			colors: ['#00acc1', '#4dd0e1', '#b2ebf2', '#e0f7fa', '#ffffff'],
 		},
 	},
+	annotations: {
+		yaxis: [],
+	},
 };
 
 let barChart;
@@ -106,12 +109,6 @@ export function updateBarChart(selectedData, selectedMetric) {
 	);
 	const count = selectedMetricData.length;
 	const average = total / count;
-
-	barSeries.push({
-		name: 'Average',
-		data: [average],
-	});
-	barCategories.push('Average');
 
 	const min = Math.min(...selectedMetricData.map((data) => data.y));
 	const max = Math.max(...selectedMetricData.map((data) => data.y));
@@ -150,17 +147,29 @@ export function updateBarChart(selectedData, selectedMetric) {
 				colors: ['#00acc1', '#4dd0e1'],
 			},
 		},
+		annotations: {
+			yaxis: [
+				{
+					y: average,
+					borderColor: '#A62A44',
+					strokeDashArray: 4, // Make the line dotted
+					label: {
+						borderColor: '#A62A44',
+						style: {
+							color: '#fff',
+							background: '#A62A44',
+						},
+						text: 'Average: ' + Math.round(average),
+					},
+				},
+			],
+		},
 	});
 
 	barChart.updateSeries([
 		{
 			name: selectedData.x,
 			data: [selectedData.y],
-		},
-		{
-			name: 'Average',
-			data: [average],
-			color: '#4a4a4a',
 		},
 	]);
 }

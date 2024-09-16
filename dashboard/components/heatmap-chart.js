@@ -1,52 +1,26 @@
-// Sample data for the heat map
-export const series = [
-	{
-		name: 'Metric1',
-		data: [
-			{ x: 'W1', y: 22 },
-			{ x: 'W2', y: 29 },
-			{ x: 'W3', y: 13 },
-			{ x: 'W4', y: 32 },
-			{ x: 'W5', y: 85 },
-			{ x: 'W6', y: 27 },
-			{ x: 'W7', y: 30 },
-			{ x: 'W8', y: 35 },
-			{ x: 'W9', y: 40 },
-		],
-	},
-	{
-		name: 'Metric2',
-		data: [
-			{ x: 'W1', y: 40 },
-			{ x: 'W2', y: 79 },
-			{ x: 'W3', y: 43 },
-			{ x: 'W4', y: 34 },
-			{ x: 'W5', y: 59 },
-			{ x: 'W6', y: 47 },
-			{ x: 'W7', y: 17 },
-			{ x: 'W8', y: 52 },
-			{ x: 'W9', y: 99 },
-		],
-	},
-	{
-		name: 'Metric3',
-		data: [
-			{ x: 'W1', y: 55 },
-			{ x: 'W2', y: 41 },
-			{ x: 'W3', y: 67 },
-			{ x: 'W4', y: 22 },
-			{ x: 'W5', y: 30 },
-			{ x: 'W6', y: 35 },
-			{ x: 'W7', y: 40 },
-			{ x: 'W8', y: 45 },
-			{ x: 'W9', y: 120 },
-		],
-	},
-];
+// heatmap-chart.js
+
+import { series } from './data/heatmap-data.js';
 
 let heatmapChart;
 
+function calculateMinMax(series) {
+	let min = Infinity;
+	let max = -Infinity;
+
+	series.forEach((metric) => {
+		metric.data.forEach((dataPoint) => {
+			if (dataPoint.y < min) min = dataPoint.y;
+			if (dataPoint.y > max) max = dataPoint.y;
+		});
+	});
+
+	return { min, max };
+}
+
 export function renderHeatmapChart(updateBarChart) {
+	const { min, max } = calculateMinMax(series);
+
 	const heatmapOptions = {
 		chart: {
 			type: 'heatmap',
@@ -67,18 +41,61 @@ export function renderHeatmapChart(updateBarChart) {
 		dataLabels: {
 			enabled: false,
 		},
-		colors: [
-			'#007c91',
-			'#0097a7',
-			'#00acc1',
-			'#00bcd4',
-			'#26c6da',
-			'#4dd0e1',
-			'#80deea',
-			'#b2ebf2',
-			'#e0f7fa',
-			'#ffffff',
-		],
+		colors: ['#007c91'],
+		colorScale: {
+			ranges: [
+				{
+					from: 0,
+					to: 0,
+					color: '#ffffff',
+				},
+				{
+					from: min,
+					to: min + (max - min) * 0.1,
+					color: '#e0f7fa',
+				},
+				{
+					from: min + (max - min) * 0.1,
+					to: min + (max - min) * 0.2,
+					color: '#b2ebf2',
+				},
+				{
+					from: min + (max - min) * 0.2,
+					to: min + (max - min) * 0.3,
+					color: '#80deea',
+				},
+				{
+					from: min + (max - min) * 0.3,
+					to: min + (max - min) * 0.4,
+					color: '#4dd0e1',
+				},
+				{
+					from: min + (max - min) * 0.4,
+					to: min + (max - min) * 0.5,
+					color: '#26c6da',
+				},
+				{
+					from: min + (max - min) * 0.5,
+					to: min + (max - min) * 0.6,
+					color: '#00bcd4',
+				},
+				{
+					from: min + (max - min) * 0.6,
+					to: min + (max - min) * 0.7,
+					color: '#00acc1',
+				},
+				{
+					from: min + (max - min) * 0.7,
+					to: min + (max - min) * 0.8,
+					color: '#0097a7',
+				},
+				{
+					from: min + (max - min) * 0.8,
+					to: max,
+					color: '#007c91',
+				},
+			],
+		},
 		series: series,
 		title: {
 			text: 'Heat Map Example',
@@ -96,5 +113,9 @@ export function renderHeatmapChart(updateBarChart) {
 	);
 	heatmapChart.render();
 }
+
+// In the future, if the metrics are not related in any meaningful way,
+// the color scale should be updated to reflect the individual ranges
+// of each metric to provide a more accurate visualization.
 
 export { heatmapChart };
